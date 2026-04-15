@@ -1,42 +1,32 @@
-// Anasayfa üst reklam carousel'i için veriler.
-// Panelden yönetim eklenene kadar bu dosyadan elle güncellenebilir.
-// Her slide için: id, title, subtitle, image (veya gradient), link, buttonText
+// Anasayfa üst reklam carousel'i için örnek firma reklamları.
+// Gerçek firma reklamları eklenince bu veriler değiştirilecek.
 
 export const heroAds = [
   {
     id: 1,
-    title: "25. Yıl Özel Etkinliği",
-    subtitle: "Derneğimizin 25. yılını birlikte kutlayalım. Tüm üyelerimiz davetlidir.",
-    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1600",
-    link: "/etkinlikler",
-    buttonText: "Detayları Gör",
-    accent: "from-primary-600/90 to-primary-800/90",
+    brand: "DADAŞ OTO",
+    tagline: "Aracınızın her ihtiyacı için güvenilir adres",
+    offer: "Derneğimiz üyelerine özel %15 indirim",
+    color: "#d32f2f", // kırmızı
+    link: "/firmalar",
+    buttonText: "Detaylı Bilgi",
   },
   {
     id: 2,
-    title: "Anlaşmalı Firmalarımızda İndirim Fırsatları",
-    subtitle: "Üyelerimize özel %25'e varan indirimlerden faydalanın.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600",
+    brand: "ERZURUM MOBİLYA",
+    tagline: "Eviniz için şıklık ve konfor bir arada",
+    offer: "Tüm oda takımlarında peşin fiyatına 12 taksit",
+    color: "#1565c0", // mavi
     link: "/firmalar",
-    buttonText: "Firmaları İncele",
-    accent: "from-accent-600/90 to-primary-700/90",
+    buttonText: "Ürünleri İncele",
   },
   {
     id: 3,
-    title: "Yeni Üyelerimizi Aramıza Bekliyoruz",
-    subtitle: "Erzurum ailesinin bir parçası olmak için hemen başvurun.",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600",
-    link: "/uyelik",
-    buttonText: "Üye Ol",
-    accent: "from-primary-500/90 to-primary-700/90",
-  },
-  {
-    id: 4,
-    title: "Erzurum Kültür Gecesi",
-    subtitle: "Halk oyunları, yöresel yemekler ve müzik ile unutulmaz bir gece.",
-    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=1600",
-    link: "/etkinlikler",
-    buttonText: "Biletler",
-    accent: "from-primary-700/90 to-primary-900/90",
+    brand: "PALANDÖKEN EMLAK",
+    tagline: "Hayalinizdeki ev artık çok yakın",
+    offer: "Yeni projelerimizde özel fırsatları kaçırmayın",
+    color: "#2e7d32", // yeşil
+    link: "/firmalar",
+    buttonText: "Projeleri Gör",
   },
 ];
