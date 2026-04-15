@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import AdCarousel from '../components/sections/AdCarousel';
 import Hero from '../components/sections/Hero';
 import About from '../components/sections/About';
 import Stats from '../components/sections/Stats';
@@ -17,6 +18,7 @@ const Home = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <AdCarousel />
       <Hero />
       <About />
       <Stats />

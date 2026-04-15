@@ -7,9 +7,11 @@ import Button from '../ui/Button';
 const navLinks = [
   { name: 'Ana Sayfa', path: '/' },
   { name: 'Hakkımızda', path: '/hakkimizda' },
+  { name: 'Tarihçe', path: '/tarihce' },
   { name: 'Etkinlikler', path: '/etkinlikler' },
   { name: 'Duyurular', path: '/duyurular' },
   { name: 'Galeri', path: '/galeri' },
+  { name: 'Firmalar', path: '/firmalar' },
   { name: 'Erzurum Kültürü', path: '/erzurum-kulturu' },
   { name: 'İletişim', path: '/iletisim' },
 ];
@@ -37,7 +39,7 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 md:top-10 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'bg-white/95 backdrop-blur-md shadow-soft py-2'
           : 'bg-transparent py-4'
@@ -61,13 +63,13 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-0.5">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? isScrolled
                         ? 'text-primary-500 bg-primary-50'
