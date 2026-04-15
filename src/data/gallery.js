@@ -70,11 +70,48 @@ export const galleryImages = [
     src: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800",
     alt: "Aile etkinliği",
     category: "Etkinlikler"
+  },
+  {
+    id: 13,
+    src: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800",
+    alt: "Hasta ziyareti",
+    category: "Ziyaretler"
+  },
+  {
+    id: 14,
+    src: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800",
+    alt: "Büyüklerimize ziyaret",
+    category: "Ziyaretler"
+  },
+  {
+    id: 15,
+    src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800",
+    alt: "Huzurevi ziyareti",
+    category: "Ziyaretler"
+  },
+  {
+    id: 16,
+    src: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=800",
+    alt: "Protokol ziyareti",
+    category: "Ziyaretler"
+  },
+  {
+    id: 17,
+    src: "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800",
+    alt: "Memleket ziyareti",
+    category: "Ziyaretler"
+  },
+  {
+    id: 18,
+    src: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800",
+    alt: "Köy ziyareti",
+    category: "Ziyaretler"
   }
 ];
 
 export const galleryCategories = [
   "Tümü",
+  "Ziyaretler",
   "Etkinlikler",
   "Toplantılar",
   "Kültürel Programlar"

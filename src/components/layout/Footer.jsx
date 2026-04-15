@@ -2,9 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Facebook,
-  Twitter,
   Instagram,
-  Youtube,
   Mail,
   Phone,
   MapPin,
@@ -14,22 +12,22 @@ import {
 const quickLinks = [
   { name: 'Ana Sayfa', path: '/' },
   { name: 'Hakkımızda', path: '/hakkimizda' },
+  { name: 'Tarihçe', path: '/tarihce' },
   { name: 'Etkinlikler', path: '/etkinlikler' },
   { name: 'Duyurular', path: '/duyurular' },
 ];
 
 const usefulLinks = [
   { name: 'Galeri', path: '/galeri' },
+  { name: 'Firmalar', path: '/firmalar' },
   { name: 'Üyelik', path: '/uyelik' },
   { name: 'Erzurum Kültürü', path: '/erzurum-kulturu' },
   { name: 'İletişim', path: '/iletisim' },
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Youtube, href: '#', label: 'Youtube' },
+  { icon: Facebook, href: 'https://www.facebook.com/', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/', label: 'Instagram' },
 ];
 
 const Footer = () => {
@@ -65,6 +63,8 @@ const Footer = () => {
                 <motion.a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
