@@ -7,11 +7,6 @@ import {
   Award,
   CheckCircle,
   Send,
-  User,
-  Phone,
-  Mail,
-  Briefcase,
-  MessageSquare,
 } from 'lucide-react';
 import PageHeader from '../components/sections/PageHeader';
 import SectionTitle from '../components/ui/SectionTitle';
@@ -48,13 +43,42 @@ const requirements = [
   'Yıllık üyelik aidatını düzenli ödemek',
 ];
 
+const KAN_GRUPLARI = [
+  'A Rh+', 'A Rh-',
+  'B Rh+', 'B Rh-',
+  'AB Rh+', 'AB Rh-',
+  '0 Rh+', '0 Rh-',
+];
+
+const OGRENIM_DURUMLARI = [
+  'İlkokul',
+  'Ortaokul',
+  'Lise',
+  'Önlisans',
+  'Lisans',
+  'Yüksek Lisans',
+  'Doktora',
+];
+
 const Uyelik = () => {
   const [formData, setFormData] = useState({
-    adSoyad: '',
-    telefon: '',
+    adi: '',
+    soyadi: '',
+    babaAdi: '',
+    anneAdi: '',
+    dogumYeri: '',
+    dogumTarihi: '',
+    tcKimlik: '',
+    meslegi: '',
+    kanGrubu: '',
+    evTelefonu: '',
+    isTelefonu: '',
+    cepTelefonu: '',
     eposta: '',
-    meslek: '',
-    mesaj: '',
+    ogrenimDurumu: '',
+    il: 'İSTANBUL',
+    ilce: 'PENDİK',
+    mahalle: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -207,98 +231,293 @@ const Uyelik = () => {
                 onSubmit={handleSubmit}
                 className="bg-white rounded-3xl shadow-elegant p-8 md:p-10"
               >
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Ad Soyad */}
+                {/* Kişisel Bilgiler */}
+                <h3 className="text-lg font-bold text-primary-500 mb-4 pb-2 border-b border-secondary-200">
+                  Kişisel Bilgiler
+                </h3>
+                <div className="grid md:grid-cols-2 gap-5 mb-8">
                   <div>
-                    <label className="block text-secondary-700 font-medium mb-2">
-                      Ad Soyad *
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Adı *
                     </label>
-                    <div className="relative">
-                      <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                      <input
-                        type="text"
-                        name="adSoyad"
-                        value={formData.adSoyad}
-                        onChange={handleChange}
-                        required
-                        className="input-field pl-12"
-                        placeholder="Adınız ve soyadınız"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      name="adi"
+                      value={formData.adi}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Adınız"
+                    />
                   </div>
 
-                  {/* Telefon */}
                   <div>
-                    <label className="block text-secondary-700 font-medium mb-2">
-                      Telefon *
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Soyadı *
                     </label>
-                    <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                      <input
-                        type="tel"
-                        name="telefon"
-                        value={formData.telefon}
-                        onChange={handleChange}
-                        required
-                        className="input-field pl-12"
-                        placeholder="05XX XXX XX XX"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      name="soyadi"
+                      value={formData.soyadi}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Soyadınız"
+                    />
                   </div>
 
-                  {/* E-posta */}
                   <div>
-                    <label className="block text-secondary-700 font-medium mb-2">
-                      E-posta *
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Baba Adı *
                     </label>
-                    <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                      <input
-                        type="email"
-                        name="eposta"
-                        value={formData.eposta}
-                        onChange={handleChange}
-                        required
-                        className="input-field pl-12"
-                        placeholder="ornek@email.com"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      name="babaAdi"
+                      value={formData.babaAdi}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Baba adı"
+                    />
                   </div>
 
-                  {/* Meslek */}
                   <div>
-                    <label className="block text-secondary-700 font-medium mb-2">
-                      Meslek
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Anne Adı *
                     </label>
-                    <div className="relative">
-                      <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                      <input
-                        type="text"
-                        name="meslek"
-                        value={formData.meslek}
-                        onChange={handleChange}
-                        className="input-field pl-12"
-                        placeholder="Mesleğiniz"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      name="anneAdi"
+                      value={formData.anneAdi}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Anne adı"
+                    />
                   </div>
 
-                  {/* Mesaj */}
-                  <div className="md:col-span-2">
-                    <label className="block text-secondary-700 font-medium mb-2">
-                      Mesaj
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Doğum Yeri *
                     </label>
-                    <div className="relative">
-                      <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-secondary-400" />
-                      <textarea
-                        name="mesaj"
-                        value={formData.mesaj}
-                        onChange={handleChange}
-                        rows={4}
-                        className="input-field pl-12 resize-none"
-                        placeholder="Eklemek istediğiniz bilgiler..."
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      name="dogumYeri"
+                      value={formData.dogumYeri}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Doğum yeriniz"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Doğum Tarihi *
+                    </label>
+                    <input
+                      type="text"
+                      name="dogumTarihi"
+                      value={formData.dogumTarihi}
+                      onChange={handleChange}
+                      required
+                      pattern="\d{2}\.\d{2}\.\d{4}"
+                      maxLength={10}
+                      className="input-field"
+                      placeholder="gg.aa.yyyy"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      T.C. Kimlik No *
+                    </label>
+                    <input
+                      type="text"
+                      name="tcKimlik"
+                      value={formData.tcKimlik}
+                      onChange={handleChange}
+                      required
+                      pattern="\d{11}"
+                      maxLength={11}
+                      inputMode="numeric"
+                      className="input-field"
+                      placeholder="11 haneli T.C. Kimlik No"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Mesleği *
+                    </label>
+                    <input
+                      type="text"
+                      name="meslegi"
+                      value={formData.meslegi}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Mesleğiniz"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Kan Grubu *
+                    </label>
+                    <select
+                      name="kanGrubu"
+                      value={formData.kanGrubu}
+                      onChange={handleChange}
+                      required
+                      className="input-field bg-white"
+                    >
+                      <option value="">Seçiniz...</option>
+                      {KAN_GRUPLARI.map((grup) => (
+                        <option key={grup} value={grup}>
+                          {grup}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Öğrenim Durumu *
+                    </label>
+                    <select
+                      name="ogrenimDurumu"
+                      value={formData.ogrenimDurumu}
+                      onChange={handleChange}
+                      required
+                      className="input-field bg-white"
+                    >
+                      <option value="">Seçiniz...</option>
+                      {OGRENIM_DURUMLARI.map((d) => (
+                        <option key={d} value={d}>
+                          {d}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* İletişim Bilgileri */}
+                <h3 className="text-lg font-bold text-primary-500 mb-4 pb-2 border-b border-secondary-200">
+                  İletişim Bilgileri
+                </h3>
+                <div className="grid md:grid-cols-2 gap-5 mb-8">
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Cep Telefonu *
+                    </label>
+                    <input
+                      type="tel"
+                      name="cepTelefonu"
+                      value={formData.cepTelefonu}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="0__________"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      E-posta Adresi *
+                    </label>
+                    <input
+                      type="email"
+                      name="eposta"
+                      value={formData.eposta}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="ornek@email.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Ev Telefonu{' '}
+                      <span className="text-secondary-400 normal-case font-normal">
+                        (zorunlu değil)
+                      </span>
+                    </label>
+                    <input
+                      type="tel"
+                      name="evTelefonu"
+                      value={formData.evTelefonu}
+                      onChange={handleChange}
+                      className="input-field"
+                      placeholder="0__________"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      İş Telefonu{' '}
+                      <span className="text-secondary-400 normal-case font-normal">
+                        (zorunlu değil)
+                      </span>
+                    </label>
+                    <input
+                      type="tel"
+                      name="isTelefonu"
+                      value={formData.isTelefonu}
+                      onChange={handleChange}
+                      className="input-field"
+                      placeholder="0__________"
+                    />
+                  </div>
+                </div>
+
+                {/* Adres Bilgileri */}
+                <h3 className="text-lg font-bold text-primary-500 mb-4 pb-2 border-b border-secondary-200">
+                  Adres Bilgileri
+                </h3>
+                <div className="grid md:grid-cols-3 gap-5">
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      İl
+                    </label>
+                    <input
+                      type="text"
+                      name="il"
+                      value={formData.il}
+                      onChange={handleChange}
+                      className="input-field"
+                      placeholder="İSTANBUL"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      İlçe
+                    </label>
+                    <input
+                      type="text"
+                      name="ilce"
+                      value={formData.ilce}
+                      onChange={handleChange}
+                      className="input-field"
+                      placeholder="PENDİK"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Mahalle *
+                    </label>
+                    <input
+                      type="text"
+                      name="mahalle"
+                      value={formData.mahalle}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Mahalleniz"
+                    />
                   </div>
                 </div>
 
