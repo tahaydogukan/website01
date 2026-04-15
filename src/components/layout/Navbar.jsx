@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, Mail, Facebook, Instagram } from 'lucide-react';
 import Button from '../ui/Button';
 
 const navLinks = [
@@ -14,6 +14,11 @@ const navLinks = [
   { name: 'Firmalar', path: '/firmalar' },
   { name: 'Erzurum Kültürü', path: '/erzurum-kulturu' },
   { name: 'İletişim', path: '/iletisim' },
+];
+
+const socialLinks = [
+  { icon: Facebook, href: 'https://www.facebook.com/', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/', label: 'Instagram' },
 ];
 
 const Navbar = () => {
@@ -39,24 +44,99 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 md:top-10 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-soft py-2'
-          : 'bg-transparent py-4'
+          ? 'bg-white/95 backdrop-blur-md shadow-soft'
+          : 'bg-transparent'
       }`}
     >
-      <div className="container-custom">
+      {/* Üst bilgi şeridi - kaydırıldığında gizlenir */}
+      <AnimatePresence>
+        {!isScrolled && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="hidden md:block border-b border-white/15 overflow-hidden"
+          >
+            <div className="container-custom py-1.5">
+              <div className="flex items-center justify-between text-xs text-white/80">
+                {/* Sol: İletişim */}
+                <div className="flex items-center gap-5">
+                  <a
+                    href="tel:+902121234567"
+                    className="flex items-center gap-1.5 hover:text-white transition-colors duration-200"
+                  >
+                    <Phone className="w-3.5 h-3.5" />
+                    <span>(0212) 123 45 67</span>
+                  </a>
+                  <a
+                    href="mailto:info@erzurumlulardernegi.org"
+                    className="flex items-center gap-1.5 hover:text-white transition-colors duration-200"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>info@erzurumlulardernegi.org</span>
+                  </a>
+                </div>
+
+                {/* Sağ: Sosyal medya */}
+                <div className="flex items-center gap-2">
+                  <span className="text-white/60 mr-1">Bizi takip edin:</span>
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200"
+                    >
+                      <social.icon className="w-3 h-3" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Ana Navbar */}
+      <div
+        className={`container-custom transition-all duration-300 ${
+          isScrolled ? 'py-2' : 'py-3'
+        }`}
+      >
         <nav className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 ${isScrolled ? 'bg-primary-500' : 'bg-white'}`}>
-              <span className={`text-xl font-bold ${isScrolled ? 'text-white' : 'text-primary-500'}`}>E</span>
+            <div
+              className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                isScrolled ? 'bg-primary-500' : 'bg-white'
+              }`}
+            >
+              <span
+                className={`text-xl font-bold ${
+                  isScrolled ? 'text-white' : 'text-primary-500'
+                }`}
+              >
+                E
+              </span>
             </div>
             <div className="flex flex-col">
-              <span className={`text-lg font-bold transition-colors duration-300 ${isScrolled ? 'text-primary-500' : 'text-white'}`}>
+              <span
+                className={`text-lg font-bold transition-colors duration-300 ${
+                  isScrolled ? 'text-primary-500' : 'text-white'
+                }`}
+              >
                 Erzurumlular
               </span>
-              <span className={`text-sm transition-colors duration-300 ${isScrolled ? 'text-secondary-600' : 'text-white/80'}`}>
+              <span
+                className={`text-sm transition-colors duration-300 ${
+                  isScrolled ? 'text-secondary-600' : 'text-white/80'
+                }`}
+              >
                 Derneği
               </span>
             </div>
@@ -87,7 +167,11 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Button to="/uyelik" variant={isScrolled ? 'primary' : 'white'} size="sm">
+            <Button
+              to="/uyelik"
+              variant={isScrolled ? 'primary' : 'white'}
+              size="sm"
+            >
               Üye Ol
             </Button>
           </div>
@@ -96,7 +180,9 @@ const Navbar = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={`lg:hidden p-2 rounded-lg transition-colors duration-200 ${
-              isScrolled ? 'text-primary-500 hover:bg-primary-50' : 'text-white hover:bg-white/10'
+              isScrolled
+                ? 'text-primary-500 hover:bg-primary-50'
+                : 'text-white hover:bg-white/10'
             }`}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -144,6 +230,43 @@ const Navbar = () => {
                   <Button to="/uyelik" variant="primary" className="w-full">
                     Üye Ol
                   </Button>
+                </motion.div>
+
+                {/* Mobil iletişim + sosyal */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: (navLinks.length + 1) * 0.05 }}
+                  className="pt-4 mt-2 border-t border-secondary-200 space-y-2"
+                >
+                  <a
+                    href="tel:+902121234567"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-secondary-600"
+                  >
+                    <Phone className="w-4 h-4 text-primary-500" />
+                    (0212) 123 45 67
+                  </a>
+                  <a
+                    href="mailto:info@erzurumlulardernegi.org"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-secondary-600"
+                  >
+                    <Mail className="w-4 h-4 text-primary-500" />
+                    info@erzurumlulardernegi.org
+                  </a>
+                  <div className="flex items-center gap-3 px-4 pt-2">
+                    {socialLinks.map((social) => (
+                      <a
+                        key={social.label}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.label}
+                        className="w-9 h-9 flex items-center justify-center rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors duration-200"
+                      >
+                        <social.icon className="w-4 h-4" />
+                      </a>
+                    ))}
+                  </div>
                 </motion.div>
               </div>
             </motion.div>
