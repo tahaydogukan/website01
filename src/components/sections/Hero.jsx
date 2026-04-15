@@ -4,7 +4,7 @@ import Button from '../ui/Button';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[calc(100vh-236px)] md:min-h-[calc(100vh-306px)] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[calc(100vh-252px)] md:min-h-[calc(100vh-322px)] flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img

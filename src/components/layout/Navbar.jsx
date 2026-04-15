@@ -105,7 +105,7 @@ const Navbar = () => {
       {/* Ana Navbar */}
       <div
         className={`container-custom transition-all duration-300 ${
-          isScrolled ? 'py-3' : 'py-4'
+          isScrolled ? 'py-4' : 'py-6'
         }`}
       >
         <nav className="flex items-center justify-between">
