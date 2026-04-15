@@ -4,7 +4,7 @@ import { ChevronRight, Home } from 'lucide-react';
 
 const PageHeader = ({ title, subtitle, breadcrumbs = [] }) => {
   return (
-    <section className="relative pt-32 pb-20 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 overflow-hidden">
+    <section className="relative pt-36 md:pt-48 pb-20 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 overflow-hidden">
       {/* Decorative Background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
