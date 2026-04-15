@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Hakkimizda from './pages/Hakkimizda'
 import Tarihce from './pages/Tarihce'
 import Etkinlikler from './pages/Etkinlikler'
+import EtkinlikDetay from './pages/EtkinlikDetay'
 import Duyurular from './pages/Duyurular'
 import Galeri from './pages/Galeri'
 import Firmalar from './pages/Firmalar'
@@ -25,6 +26,7 @@ function App() {
             <Route path="/hakkimizda" element={<Hakkimizda />} />
             <Route path="/tarihce" element={<Tarihce />} />
             <Route path="/etkinlikler" element={<Etkinlikler />} />
+            <Route path="/etkinlikler/:id" element={<EtkinlikDetay />} />
             <Route path="/duyurular" element={<Duyurular />} />
             <Route path="/galeri" element={<Galeri />} />
             <Route path="/firmalar" element={<Firmalar />} />

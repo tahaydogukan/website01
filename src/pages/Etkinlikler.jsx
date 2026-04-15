@@ -143,16 +143,15 @@ const Etkinlikler = () => {
                       </div>
                     </div>
 
-                    {event.status === 'upcoming' && (
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        className="w-full"
-                        icon={<ArrowRight className="w-4 h-4" />}
-                      >
-                        Detayları Gör
-                      </Button>
-                    )}
+                    <Button
+                      to={`/etkinlikler/${event.id}`}
+                      variant="primary"
+                      size="sm"
+                      className="w-full"
+                      icon={<ArrowRight className="w-4 h-4" />}
+                    >
+                      Detayları Gör
+                    </Button>
                   </div>
                 </motion.article>
               ))}
