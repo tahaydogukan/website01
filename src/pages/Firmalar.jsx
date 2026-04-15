@@ -29,31 +29,33 @@ const Firmalar = () => {
       />
 
       {/* Kayar Logo Şeridi */}
-      <section className="bg-white py-8 border-b border-secondary-100 overflow-hidden">
-        <div className="container-custom mb-4">
-          <p className="text-center text-secondary-500 text-sm font-medium uppercase tracking-wider">
+      <section className="bg-white py-8 border-b border-secondary-100">
+        <div className="container-custom">
+          <p className="text-center text-secondary-500 text-sm font-medium uppercase tracking-wider mb-4">
             Anlaşmalı Firmalarımız
           </p>
-        </div>
-        <div className="relative w-full overflow-hidden">
-          {/* Sol kenar fade (beyaza doğru) */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          {/* Sağ kenar fade (beyaza doğru) */}
-          <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-          <div className="flex animate-marquee whitespace-nowrap">
-            {marqueeFirms.map((firm, index) => (
-              <div
-                key={`${firm.id}-${index}`}
-                className="mx-6 flex-shrink-0 flex items-center justify-center"
-              >
-                <img
-                  src={firm.logo}
-                  alt={firm.name}
-                  className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-xl grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
-                />
-              </div>
-            ))}
+          {/* Marquee container - container-custom içinde, ekran kenarına yayılmaz */}
+          <div className="relative overflow-hidden mx-auto max-w-5xl">
+            {/* Sol kenar fade (beyaza doğru) */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+            {/* Sağ kenar fade (beyaza doğru) */}
+            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+            <div className="flex animate-marquee whitespace-nowrap">
+              {marqueeFirms.map((firm, index) => (
+                <div
+                  key={`${firm.id}-${index}`}
+                  className="mx-6 flex-shrink-0 flex items-center justify-center"
+                >
+                  <img
+                    src={firm.logo}
+                    alt={firm.name}
+                    className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-xl grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
