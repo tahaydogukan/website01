@@ -60,29 +60,29 @@ const Navbar = () => {
             transition={{ duration: 0.2 }}
             className="hidden md:block border-b border-white/15 overflow-hidden"
           >
-            <div className="container-custom py-1.5">
-              <div className="flex items-center justify-between text-xs text-white/80">
+            <div className="container-custom py-2.5">
+              <div className="flex items-center justify-between text-sm text-white/85">
                 {/* Sol: İletişim */}
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-6">
                   <a
                     href="tel:+902121234567"
-                    className="flex items-center gap-1.5 hover:text-white transition-colors duration-200"
+                    className="flex items-center gap-2 hover:text-white transition-colors duration-200"
                   >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>(0212) 123 45 67</span>
+                    <Phone className="w-4 h-4" />
+                    <span className="font-medium">(0212) 123 45 67</span>
                   </a>
                   <a
                     href="mailto:info@erzurumlulardernegi.org"
-                    className="flex items-center gap-1.5 hover:text-white transition-colors duration-200"
+                    className="flex items-center gap-2 hover:text-white transition-colors duration-200"
                   >
-                    <Mail className="w-3.5 h-3.5" />
-                    <span>info@erzurumlulardernegi.org</span>
+                    <Mail className="w-4 h-4" />
+                    <span className="font-medium">info@erzurumlulardernegi.org</span>
                   </a>
                 </div>
 
                 {/* Sağ: Sosyal medya */}
-                <div className="flex items-center gap-2">
-                  <span className="text-white/60 mr-1">Bizi takip edin:</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-white/70 mr-1">Bizi takip edin:</span>
                   {socialLinks.map((social) => (
                     <a
                       key={social.label}
@@ -90,9 +90,9 @@ const Navbar = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.label}
-                      className="w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200"
+                      className="w-9 h-9 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/25 transition-colors duration-200"
                     >
-                      <social.icon className="w-3 h-3" />
+                      <social.icon className="w-4.5 h-4.5" style={{ width: '18px', height: '18px' }} />
                     </a>
                   ))}
                 </div>
@@ -105,19 +105,19 @@ const Navbar = () => {
       {/* Ana Navbar */}
       <div
         className={`container-custom transition-all duration-300 ${
-          isScrolled ? 'py-2' : 'py-3'
+          isScrolled ? 'py-3' : 'py-4'
         }`}
       >
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-4">
             <div
-              className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
+              className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors duration-300 shadow-md ${
                 isScrolled ? 'bg-primary-500' : 'bg-white'
               }`}
             >
               <span
-                className={`text-xl font-bold ${
+                className={`text-3xl font-bold ${
                   isScrolled ? 'text-white' : 'text-primary-500'
                 }`}
               >
@@ -126,14 +126,14 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col">
               <span
-                className={`text-lg font-bold transition-colors duration-300 ${
+                className={`text-xl md:text-2xl font-bold leading-tight transition-colors duration-300 ${
                   isScrolled ? 'text-primary-500' : 'text-white'
                 }`}
               >
                 Erzurumlular
               </span>
               <span
-                className={`text-sm transition-colors duration-300 ${
+                className={`text-base transition-colors duration-300 ${
                   isScrolled ? 'text-secondary-600' : 'text-white/80'
                 }`}
               >
@@ -143,13 +143,13 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-0.5">
+          <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  `px-3 py-2.5 rounded-lg text-[15px] font-medium transition-all duration-200 ${
                     isActive
                       ? isScrolled
                         ? 'text-primary-500 bg-primary-50'
@@ -170,7 +170,7 @@ const Navbar = () => {
             <Button
               to="/uyelik"
               variant={isScrolled ? 'primary' : 'white'}
-              size="sm"
+              size="md"
             >
               Üye Ol
             </Button>
