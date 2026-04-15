@@ -36,7 +36,7 @@ const Firmalar = () => {
           </p>
 
           {/* Marquee container - container-custom içinde, ekran kenarına yayılmaz */}
-          <div className="relative overflow-hidden mx-auto max-w-5xl">
+          <div className="relative overflow-hidden mx-auto max-w-6xl">
             {/* Sol kenar fade (beyaza doğru) */}
             <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
             {/* Sağ kenar fade (beyaza doğru) */}
