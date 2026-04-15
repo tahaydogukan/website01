@@ -33,7 +33,7 @@ const AdCarousel = () => {
 
   return (
     <section
-      className="relative w-full h-[280px] md:h-[340px] overflow-hidden bg-primary-700"
+      className="relative w-full h-[140px] md:h-[170px] overflow-hidden bg-primary-700"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -69,16 +69,16 @@ const AdCarousel = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="max-w-2xl text-white"
           >
-            <h2 className="text-2xl md:text-4xl font-bold mb-3 drop-shadow-lg">
+            <h2 className="text-lg md:text-2xl font-bold mb-1 md:mb-2 drop-shadow-lg">
               {currentAd.title}
             </h2>
-            <p className="text-white/90 text-base md:text-lg mb-5 leading-relaxed drop-shadow-md">
+            <p className="text-white/90 text-xs md:text-sm mb-2 md:mb-3 leading-snug drop-shadow-md line-clamp-2">
               {currentAd.subtitle}
             </p>
             {currentAd.link && currentAd.buttonText && (
               <Link
                 to={currentAd.link}
-                className="inline-block bg-white text-primary-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-secondary-50 transition-colors duration-200 shadow-lg"
+                className="inline-block bg-white text-primary-600 px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-secondary-50 transition-colors duration-200 shadow-lg"
               >
                 {currentAd.buttonText}
               </Link>
@@ -91,20 +91,20 @@ const AdCarousel = () => {
       <button
         onClick={goToPrevious}
         aria-label="Önceki reklam"
-        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors duration-200"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors duration-200"
       >
-        <ChevronLeft className="w-5 h-5" />
+        <ChevronLeft className="w-4 h-4" />
       </button>
       <button
         onClick={goToNext}
         aria-label="Sonraki reklam"
-        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors duration-200"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors duration-200"
       >
-        <ChevronRight className="w-5 h-5" />
+        <ChevronRight className="w-4 h-4" />
       </button>
 
       {/* Noktalar */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
         {heroAds.map((ad, index) => (
           <button
             key={ad.id}
@@ -112,8 +112,8 @@ const AdCarousel = () => {
             aria-label={`${index + 1}. reklama git`}
             className={`transition-all duration-300 rounded-full ${
               index === currentIndex
-                ? 'w-8 h-2 bg-white'
-                : 'w-2 h-2 bg-white/50 hover:bg-white/80'
+                ? 'w-6 h-1.5 bg-white'
+                : 'w-1.5 h-1.5 bg-white/50 hover:bg-white/80'
             }`}
           />
         ))}
