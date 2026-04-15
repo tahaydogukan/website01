@@ -8,11 +8,9 @@ import {
   ChevronLeft,
   Tag,
   Share2,
-  Users,
   CheckCircle,
 } from 'lucide-react';
 import PageHeader from '../components/sections/PageHeader';
-import Button from '../components/ui/Button';
 import { events } from '../data/events';
 
 const EtkinlikDetay = () => {
@@ -186,16 +184,6 @@ const EtkinlikDetay = () => {
                   </div>
                 </div>
 
-                {event.status === 'upcoming' && (
-                  <Button
-                    to="/iletisim"
-                    variant="white"
-                    className="w-full mt-6"
-                    icon={<Users className="w-4 h-4" />}
-                  >
-                    Katılmak İçin İletişime Geç
-                  </Button>
-                )}
               </div>
 
               {/* Paylaş */}
