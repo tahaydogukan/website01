@@ -29,6 +29,8 @@ const values = [
 ];
 
 const Hakkimizda = () => {
+  const president = boardMembers.find((member) => member.title === 'Başkan');
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -59,14 +61,15 @@ const Hakkimizda = () => {
                 Neden Kurulduk?
               </h2>
               <p className="text-secondary-600 text-lg leading-relaxed mb-6">
-                Erzurumlular Derneği, 1999 yılında İstanbul'da yaşayan Erzurumlu hemşehrilerimizi
-                bir araya getirmek, memleketimizin zengin kültürünü yaşatmak ve nesiller arası
-                bağı güçlendirmek amacıyla kurulmuştur.
+                Derneğimiz; toplumun ihtiyaçlarına duyarlı, ortak değerler etrafında bir araya
+                gelen bireylerin bilgi, deneyim ve gönüllülük gücünü birleştirerek kalıcı
+                çözümler üretmek amacıyla 1992 yılında kurulmuştur.
               </p>
               <p className="text-secondary-600 text-lg leading-relaxed">
-                Kuruluşumuzdan bu yana binlerce hemşehrimize ulaştık, yüzlerce etkinlik düzenledik
-                ve ihtiyaç sahiplerine destek olduk. Erzurum'un dadaşlık ruhunu İstanbul'da
-                yaşatmaya devam ediyoruz.
+                Toplumsal dayanışmayı güçlendirmek; eğitim, kültür, sanat ve sosyal gelişime katkı
+                sunmak; dezavantajlı grupların yanında olmak ve ortak fayda sağlayan projeler
+                geliştirmek temel kuruluş nedenlerimiz arasındadır. İnsan odaklı, şeffaf ve
+                katılımcı bir anlayışla gönüllülük kültürünü gelecek nesillere aktarmayı hedefliyoruz.
               </p>
             </motion.div>
 
@@ -83,8 +86,8 @@ const Hakkimizda = () => {
                 className="rounded-2xl shadow-elegant w-full h-[400px] object-cover"
               />
               <div className="absolute -bottom-6 -left-6 bg-accent-500 text-white p-6 rounded-2xl shadow-elegant">
-                <div className="text-4xl font-bold">25+</div>
-                <div className="text-sm">Yıllık Tecrübe</div>
+                <div className="text-4xl font-bold">1992</div>
+                <div className="text-sm">Kuruluş Yılı</div>
               </div>
             </motion.div>
           </div>
@@ -107,10 +110,11 @@ const Hakkimizda = () => {
               </div>
               <h3 className="text-2xl font-bold text-primary-500 mb-4">Misyonumuz</h3>
               <p className="text-secondary-600 leading-relaxed">
-                Erzurum kültürünü yaşatmak, hemşehrilerimiz arasında dayanışmayı güçlendirmek,
-                sosyal yardımlaşma faaliyetleri yürütmek ve gençlerimize değerlerimizi aktarmak.
-                Toplumsal sorumluluk bilinciyle hareket ederek, ihtiyaç sahiplerine destek olmak
-                ve kültürel mirasımızı gelecek nesillere taşımak temel misyonumuzdur.
+                Toplumsal dayanışmayı güçlendirmek; sosyal, kültürel ve eğitsel alanlarda
+                sürdürülebilir projeler üretmek; bireylerin kişisel ve toplumsal gelişimine katkı
+                sağlamak. Katılımcılık, şeffaflık, eşitlik ve gönüllülük ilkeleri doğrultusunda
+                toplumun her kesimine fayda sağlayan çalışmalar yürütmek ve ortak değerler
+                etrafında güçlü bir dayanışma kültürü oluşturmak temel misyonumuzdur.
               </p>
             </motion.div>
 
@@ -126,10 +130,10 @@ const Hakkimizda = () => {
               </div>
               <h3 className="text-2xl font-bold text-primary-500 mb-4">Vizyonumuz</h3>
               <p className="text-secondary-600 leading-relaxed">
-                Türkiye genelinde ve dünyada Erzurum kültürünün en güçlü temsilcisi olmak,
-                hemşehrilerimiz için güvenilir bir dayanışma merkezi haline gelmek. Teknoloji
-                ve gelenekleri harmanlayarak, modern çağda kültürel değerlerimizi yaşatan
-                öncü bir sivil toplum kuruluşu olmayı hedefliyoruz.
+                Ulusal ve uluslararası düzeyde örnek gösterilen, güvenilir, yenilikçi ve
+                sürdürülebilir projeler geliştiren; toplumsal gelişime öncülük eden, gönüllülük
+                bilincini yaygınlaştıran ve insanların yaşam kalitesini artıran öncü bir sivil
+                toplum kuruluşu olmak.
               </p>
             </motion.div>
           </div>
@@ -152,24 +156,29 @@ const Hakkimizda = () => {
 
               <div className="relative z-10 grid md:grid-cols-3 gap-8 items-center">
                 <div className="md:col-span-1">
-                  <img
-                    src={boardMembers[0].image}
-                    alt={boardMembers[0].name}
-                    className="w-48 h-48 mx-auto rounded-2xl object-cover shadow-lg"
-                  />
+                  <div className="w-48 aspect-[4/5] mx-auto rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center shadow-lg overflow-hidden">
+                    {president?.image ? (
+                      <img src={president.image} alt={president.name} loading="lazy" decoding="async" className="w-full h-full object-cover" style={{ objectPosition: president.imagePosition || 'center' }} />
+                    ) : (
+                      <span className="text-5xl font-bold">MK</span>
+                    )}
+                  </div>
                 </div>
                 <div className="md:col-span-2">
                   <h3 className="text-2xl font-bold mb-2">Başkan Mesajı</h3>
                   <p className="text-white/90 leading-relaxed mb-6">
-                    "Değerli Hemşehrilerim, Erzurumlular Derneği olarak 25 yıldır büyük bir aile
-                    olmanın gururunu yaşıyoruz. Kültürümüzü yaşatmak, dayanışmamızı güçlendirmek
-                    ve gençlerimize değerlerimizi aktarmak için var gücümüzle çalışıyoruz.
-                    Birlik ve beraberlik içinde nice 25 yıllara birlikte yürümeyi diliyorum.
-                    Kapımız her zaman tüm Erzurumlu hemşehrilerimize açıktır."
+                    Kıymetli hemşehrilerim; Erzurum'un köklü kültürünü, birlik ve dayanışma ruhunu
+                    İstanbul - Pendik Kaynarca'da yaşatmak ve gelecek nesillere aktarmak en büyük
+                    sorumluluğumuzdur. Derneğimiz, yalnızca hemşehrilerimizi bir araya getiren bir
+                    çatı değil; dostluğun, paylaşmanın ve ortak değerlerimizin yaşatıldığı güçlü bir
+                    aile olmayı hedeflemektedir. Birlik ve beraberlik içinde gerçekleştireceğimiz her
+                    çalışma, hem toplumumuza hem de gençlerimize kalıcı değerler kazandıracaktır. Tüm
+                    hemşehrilerimizi bu büyük dayanışmanın bir parçası olmaya davet ediyor, sevgi ve
+                    saygılarımı sunuyorum.
                   </p>
                   <div>
-                    <div className="font-bold text-lg">{boardMembers[0].name}</div>
-                    <div className="text-white/70">{boardMembers[0].title}</div>
+                    <div className="font-bold text-lg">{president?.name}</div>
+                    <div className="text-white/70">{president?.title}</div>
                   </div>
                 </div>
               </div>
@@ -209,37 +218,41 @@ const Hakkimizda = () => {
       </section>
 
       {/* Yönetim Kurulu */}
-      <section className="section-padding bg-white">
+      <section id="yonetim-kurulu" className="section-padding bg-white">
         <div className="container-custom">
           <SectionTitle
             title="Yönetim Kurulu"
             subtitle="Derneğimizi yöneten değerli ekibimiz"
           />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {boardMembers.map((member, index) => (
-              <motion.div
+              <motion.article
                 key={member.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: (index % 4) * 0.05 }}
+                className="min-w-0"
               >
-                <Card className="text-center">
-                  <div className="relative mb-4">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-32 h-32 mx-auto rounded-2xl object-cover"
-                    />
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-accent-500 text-white text-sm font-medium rounded-full whitespace-nowrap">
-                      {member.title}
-                    </div>
+                <div className="h-full overflow-hidden rounded-2xl border border-secondary-200 bg-white shadow-soft">
+                  <div className="aspect-[4/5] overflow-hidden bg-primary-50 flex items-center justify-center">
+                    {member.image ? (
+                      <img src={member.image} alt={member.name} loading="lazy" decoding="async" className="w-full h-full object-cover" style={{ objectPosition: member.imagePosition || 'center' }} />
+                    ) : (
+                      <span className="text-5xl font-bold text-primary-500/60" aria-hidden="true">
+                        {member.name.split(' ').map((part) => part[0]).slice(0, 2).join('')}
+                      </span>
+                    )}
                   </div>
-                  <h3 className="text-xl font-bold text-secondary-800 mt-4 mb-2">{member.name}</h3>
-                  <p className="text-secondary-600 text-sm">{member.bio}</p>
-                </Card>
-              </motion.div>
+                  <div className="p-3 sm:p-5 text-center">
+                    <p className={`text-[10px] sm:text-xs font-semibold uppercase tracking-wide ${member.title === 'Başkan' ? 'text-accent-700' : 'text-secondary-500'}`}>
+                      {member.title}
+                    </p>
+                    <h3 className="text-sm sm:text-lg font-bold text-secondary-800 mt-2">{member.name}</h3>
+                  </div>
+                </div>
+              </motion.article>
             ))}
           </div>
         </div>

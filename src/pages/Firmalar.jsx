@@ -100,6 +100,7 @@ const Firmalar = () => {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
+                aria-pressed={selectedCategory === category}
                 className={`px-5 py-2 rounded-full font-medium transition-all duration-200 ${
                   selectedCategory === category
                     ? 'bg-primary-500 text-white shadow-md'
@@ -134,13 +135,13 @@ const Firmalar = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                     {/* İndirim Etiketi */}
-                    <div className="absolute top-4 right-4 bg-accent-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
+                    <div className="absolute top-4 right-4 bg-accent-700 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
                       <Tag className="w-3 h-3" />
                       {firm.discount} İndirim
                     </div>
 
                     {/* Logo */}
-                    <div className="absolute -bottom-6 left-6 w-16 h-16 bg-white rounded-xl shadow-lg p-2 flex items-center justify-center">
+                    <div className="absolute bottom-3 left-4 w-14 h-14 bg-white rounded-xl shadow-lg p-2 flex items-center justify-center">
                       <img
                         src={firm.logo}
                         alt={`${firm.name} logo`}
@@ -150,7 +151,7 @@ const Firmalar = () => {
                   </div>
 
                   {/* İçerik */}
-                  <div className="p-6 pt-10">
+                  <div className="p-6">
                     <div className="mb-3">
                       <span className="inline-block px-3 py-1 bg-primary-50 text-primary-600 text-xs rounded-full font-medium">
                         {firm.category}

@@ -5,6 +5,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 11rem;
   }
 
   body {
@@ -13,6 +14,15 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+  }
+
+  :focus-visible {
+    outline: 3px solid #0e7490;
+    outline-offset: 4px;
+  }
+
+  [hidden] {
+    display: none !important;
   }
 }
 
@@ -56,7 +66,7 @@
   }
 
   .section-padding {
-    @apply py-16 md:py-24 lg:py-32;
+    @apply py-14 md:py-20 lg:py-24;
   }
 
   .container-custom {
@@ -93,6 +103,15 @@
            after:w-0 after:h-0.5 after:bg-primary-500
            after:transition-all after:duration-300
            hover:after:w-full;
+  }
+
+  .skip-link {
+    @apply fixed left-4 top-4 z-[100] rounded-lg bg-white px-5 py-3 font-semibold text-primary-500 shadow-lg;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
   }
 
   .nav-link-active {
@@ -148,4 +167,13 @@
 ::selection {
   background-color: rgba(30, 58, 95, 0.2);
   color: #1e3a5f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

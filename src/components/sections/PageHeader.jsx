@@ -4,7 +4,7 @@ import { ChevronRight, Home } from 'lucide-react';
 
 const PageHeader = ({ title, subtitle, breadcrumbs = [] }) => {
   return (
-    <section className="relative pt-36 md:pt-48 pb-20 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 overflow-hidden">
+    <section className="relative py-12 md:py-16 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 overflow-hidden">
       {/* Decorative Background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
@@ -21,12 +21,13 @@ const PageHeader = ({ title, subtitle, breadcrumbs = [] }) => {
       <div className="container-custom relative z-10">
         {/* Breadcrumbs */}
         <motion.nav
+          aria-label="Sayfa yolu"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="flex items-center space-x-2 text-white/70 mb-6"
         >
-          <Link to="/" className="flex items-center hover:text-white transition-colors duration-200">
+          <Link to="/" aria-label="Ana sayfa" className="flex items-center hover:text-white transition-colors duration-200">
             <Home className="w-4 h-4" />
           </Link>
           {breadcrumbs.map((crumb, index) => (
@@ -50,11 +51,11 @@ const PageHeader = ({ title, subtitle, breadcrumbs = [] }) => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="max-w-3xl"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 text-balance">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xl text-white/80 leading-relaxed">
+            <p className="text-base md:text-lg text-white/90 leading-relaxed">
               {subtitle}
             </p>
           )}

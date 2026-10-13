@@ -1,44 +1,24 @@
 export const boardMembers = [
-  {
-    id: 1,
-    name: "Ahmet Yılmaz",
-    title: "Yönetim Kurulu Başkanı",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-    bio: "1965 Erzurum doğumlu. 30 yılı aşkın süredir İstanbul'da yaşamakta olup, iş dünyasında başarılı bir kariyere sahiptir."
-  },
-  {
-    id: 2,
-    name: "Mehmet Kaya",
-    title: "Başkan Yardımcısı",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400",
-    bio: "1970 Erzurum doğumlu. Eğitim sektöründe uzun yıllar hizmet vermiş, emekli öğretmendir."
-  },
-  {
-    id: 3,
-    name: "Fatma Demir",
-    title: "Genel Sekreter",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
-    bio: "1975 Erzurum doğumlu. Derneğimizin kurucu üyelerinden olup, sivil toplum alanında aktif çalışmalar yürütmektedir."
-  },
-  {
-    id: 4,
-    name: "Ali Öztürk",
-    title: "Sayman",
-    image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400",
-    bio: "1968 Erzurum doğumlu. Mali müşavir olarak görev yapmakta olup, derneğin mali işlerini yönetmektedir."
-  },
-  {
-    id: 5,
-    name: "Ayşe Şahin",
-    title: "Sosyal İşler Sorumlusu",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400",
-    bio: "1980 Erzurum doğumlu. Sosyal hizmet uzmanı olup, derneğin sosyal yardım ve dayanışma faaliyetlerini koordine etmektedir."
-  },
-  {
-    id: 6,
-    name: "Hasan Çelik",
-    title: "Kültür ve Etkinlik Sorumlusu",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400",
-    bio: "1972 Erzurum doğumlu. Kültür ve sanat alanında deneyimli olup, derneğin etkinliklerini organize etmektedir."
-  }
-];
+  { id: 15, name: 'Vefa Günüçay', title: 'Üye', image: '/images/members/vefa-gunucay.jpg' },
+  { id: 3, name: 'Osman Dağlar', title: 'Başkan Vekili', image: '/images/members/osman-daglar.jpg' },
+  { id: 18, name: 'Doğukan Alkan', title: 'Üye', image: '/images/members/dogukan-alkan.jpg' },
+  { id: 13, name: 'Abdülkebir Gündoğdu', title: 'Üye', image: '/images/members/abdulkebir-gundogdu.jpg' },
+  { id: 11, name: 'Zafer Uzuner', title: 'Üye', image: '/images/members/zafer-uzuner.jpg' },
+  { id: 20, name: 'Ahmet Demir', title: 'Üye', image: '/images/members/ahmet-demir.jpg' },
+  { id: 22, name: 'Ensar Güzel', title: 'Üye', image: '/images/members/ensar-guzel.jpg' },
+  { id: 12, name: 'Batuhan Uçar', title: 'Üye', image: '/images/members/batuhan-ucar.jpg' },
+  { id: 6, name: 'Ahmet Öztürk', title: 'Üye', image: '/images/members/ahmet-ozturk.jpg' },
+  { id: 4, name: 'Hasan Yıldız', title: 'Üye', image: '/images/members/hasan-yildiz.jpg' },
+  { id: 2, name: 'Mustafa Uğur', title: 'Başkan Yardımcısı', image: '/images/members/mustafa-ugur.jpg' },
+  { id: 19, name: 'Ali Altaş', title: 'Üye', image: '/images/members/ali-altas.jpg' },
+  { id: 21, name: 'Haşim Almatopu', title: 'Üye', image: '/images/members/hasim-almatopu.jpg' },
+  { id: 14, name: 'İbrahim Sayan', title: 'Üye', image: '/images/members/ibrahim-sayan.jpg' },
+  { id: 17, name: 'Emre Mumcu', title: 'Üye', image: '/images/members/emre-mumcu.jpg' },
+  { id: 16, name: 'Deniz Demir', title: 'Üye', image: '/images/members/deniz-demir.jpg' },
+  { id: 5, name: 'Suat Doğukan', title: 'Üye', image: '/images/members/suat-dogukan.jpg', imagePosition: '65% center' },
+  { id: 1, name: 'Mehdi Kaya', title: 'Başkan', image: '/images/members/mehdi-kaya.jpg' },
+].reverse().map((member) => ({
+  ...member,
+  // Refresh cached portraits after correcting the photo order.
+  image: `${member.image}?v=2`,
+}));

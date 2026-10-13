@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Camera } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
 import Button from '../ui/Button';
@@ -28,9 +29,11 @@ const GalleryPreview = () => {
                 index === 0 ? 'md:col-span-2 md:row-span-2' : ''
               }`}
             >
+              <Link to="/galeri" aria-label={`${image.alt} — Galeriyi aç`} className="block h-full">
               <img
                 src={image.src}
                 alt={image.alt}
+                loading="lazy"
                 className={`w-full object-cover ${
                   index === 0 ? 'h-64 md:h-full' : 'h-48 md:h-64'
                 }`}
@@ -51,6 +54,7 @@ const GalleryPreview = () => {
               <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <Camera className="w-5 h-5 text-white" />
               </div>
+              </Link>
             </motion.div>
           ))}
         </div>

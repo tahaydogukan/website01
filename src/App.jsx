@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
@@ -14,8 +14,13 @@ import Iletisim from './pages/Iletisim'
 import ErzurumKulturu from './pages/ErzurumKulturu'
 import ScrollToTop from './components/ui/ScrollToTop'
 import BackToTop from './components/ui/BackToTop'
+import Admin from './pages/Admin'
 
 function App() {
+  const { pathname } = useLocation()
+  if (pathname === '/yonetim' || pathname.startsWith('/yonetim/')) {
+    return <><ScrollToTop /><Admin /></>
+  }
   return (
     <>
       <ScrollToTop />

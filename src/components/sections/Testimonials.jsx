@@ -89,6 +89,7 @@ const Testimonials = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={prev}
+                aria-label="Önceki üye görüşü"
                 className="w-12 h-12 bg-white rounded-full shadow-card flex items-center justify-center text-secondary-600 hover:text-primary-500 hover:shadow-elegant transition-all duration-200"
               >
                 <ChevronLeft className="w-6 h-6" />
@@ -100,7 +101,9 @@ const Testimonials = () => {
                   <button
                     key={index}
                     onClick={() => setCurrent(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    aria-label={`${index + 1}. üye görüşünü göster`}
+                    aria-pressed={index === current}
+                    className={`min-w-6 h-6 rounded-full transition-all duration-200 ${
                       index === current
                         ? 'bg-primary-500 w-8'
                         : 'bg-secondary-300 hover:bg-secondary-400'
@@ -113,6 +116,7 @@ const Testimonials = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={next}
+                aria-label="Sonraki üye görüşü"
                 className="w-12 h-12 bg-white rounded-full shadow-card flex items-center justify-center text-secondary-600 hover:text-primary-500 hover:shadow-elegant transition-all duration-200"
               >
                 <ChevronRight className="w-6 h-6" />

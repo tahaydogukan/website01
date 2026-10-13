@@ -3,6 +3,7 @@ export const events = [
     id: 1,
     title: "Erzurum Kurtuluş Günü Kutlaması",
     date: "12 Mart 2024",
+    startsAt: "2024-03-12T14:00:00+03:00",
     time: "14:00",
     location: "Dernek Merkezi",
     description: "Erzurum'un kurtuluşunun 106. yıl dönümünü coşkuyla kutluyoruz. Tüm hemşehrilerimizi bekliyoruz.",
@@ -14,6 +15,7 @@ export const events = [
     id: 2,
     title: "Geleneksel Cağ Kebabı Şöleni",
     date: "25 Mart 2024",
+    startsAt: "2024-03-25T12:00:00+03:00",
     time: "12:00",
     location: "Dernek Bahçesi",
     description: "Erzurum'un eşsiz lezzeti cağ kebabını birlikte hazırlayıp tadacağız. Aileler için özel etkinlik.",
@@ -25,6 +27,7 @@ export const events = [
     id: 3,
     title: "Bar Oyunları Gecesi",
     date: "5 Nisan 2024",
+    startsAt: "2024-04-05T19:00:00+03:00",
     time: "19:00",
     location: "Kültür Merkezi",
     description: "Erzurum'un geleneksel bar oyunlarını öğrenme ve sergileme etkinliği. Her yaştan katılımcı kabul edilmektedir.",
@@ -36,6 +39,7 @@ export const events = [
     id: 4,
     title: "Bahar Pikniği",
     date: "20 Nisan 2024",
+    startsAt: "2024-04-20T10:00:00+03:00",
     time: "10:00",
     location: "Beykoz Korusu",
     description: "Baharın gelişini ailece kutluyoruz. Oyunlar, müzik ve güzel sohbetler sizleri bekliyor.",
@@ -47,6 +51,7 @@ export const events = [
     id: 5,
     title: "Yeni Yıl Buluşması",
     date: "15 Ocak 2024",
+    startsAt: "2024-01-15T18:00:00+03:00",
     time: "18:00",
     location: "Dernek Merkezi",
     description: "Yeni yıla birlikte hoş geldin dedik. Geleneksel ikramlarımız eşliğinde güzel bir gece geçirdik.",
@@ -58,6 +63,7 @@ export const events = [
     id: 6,
     title: "Çocuklar için Kış Festivali",
     date: "3 Şubat 2024",
+    startsAt: "2024-02-03T13:00:00+03:00",
     time: "13:00",
     location: "Dernek Merkezi",
     description: "Küçük hemşehrilerimiz için eğlenceli bir kış festivali düzenledik. Oyunlar ve ödüller çocuklarımızı mutlu etti.",
@@ -75,3 +81,10 @@ export const eventCategories = [
   "Yemek",
   "Çocuk"
 ];
+
+// The displayed status follows the event date, even when older data has a stale flag.
+export const getEventStatus = (event, now = Date.now()) => {
+  const timestamp = Date.parse(event.startsAt);
+  if (!Number.isFinite(timestamp)) return event.status;
+  return timestamp >= now ? 'upcoming' : 'past';
+};

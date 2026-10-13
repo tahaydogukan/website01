@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, Mail, Facebook, Instagram } from 'lucide-react';
+import { Menu, X, Mail, MapPin, Clock } from 'lucide-react';
 import Button from '../ui/Button';
 
 const navLinks = [
@@ -16,264 +15,122 @@ const navLinks = [
   { name: 'İletişim', path: '/iletisim' },
 ];
 
-const socialLinks = [
-  { icon: Facebook, href: 'https://www.facebook.com/', label: 'Facebook' },
-  { icon: Instagram, href: 'https://www.instagram.com/', label: 'Instagram' },
-];
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const menuButton = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    setIsOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
+    if (!isOpen) return;
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    const closeOnResize = () => {
+      if (window.innerWidth >= 1280) setIsOpen(false);
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    window.addEventListener('resize', closeOnResize);
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape);
+      window.removeEventListener('resize', closeOnResize);
+    };
+  }, [isOpen]);
+
+  const linkStyles = ({ isActive }) =>
+    `rounded-lg px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
+      isActive
+        ? 'bg-primary-50 text-primary-500'
+        : 'text-secondary-600 hover:bg-secondary-50 hover:text-primary-500'
+    }`;
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-soft'
-          : 'bg-transparent'
-      }`}
-    >
-      {/* Üst bilgi şeridi - kaydırıldığında gizlenir */}
-      <AnimatePresence>
-        {!isScrolled && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="hidden md:block border-b border-white/15 overflow-hidden"
-          >
-            <div className="container-custom py-2.5">
-              <div className="flex items-center justify-between text-sm text-white/85">
-                {/* Sol: İletişim */}
-                <div className="flex items-center gap-6">
-                  <a
-                    href="tel:+902121234567"
-                    className="flex items-center gap-2 hover:text-white transition-colors duration-200"
-                  >
-                    <Phone className="w-4 h-4" />
-                    <span className="font-medium">(0212) 123 45 67</span>
-                  </a>
-                  <a
-                    href="mailto:info@erzurumlulardernegi.org"
-                    className="flex items-center gap-2 hover:text-white transition-colors duration-200"
-                  >
-                    <Mail className="w-4 h-4" />
-                    <span className="font-medium">info@erzurumlulardernegi.org</span>
-                  </a>
-                </div>
-
-                {/* Sağ: Sosyal medya */}
-                <div className="flex items-center gap-2.5">
-                  <span className="text-white/70 mr-1">Bizi takip edin:</span>
-                  {socialLinks.map((social) => (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.label}
-                      className="w-9 h-9 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/25 transition-colors duration-200"
-                    >
-                      <social.icon className="w-4.5 h-4.5" style={{ width: '18px', height: '18px' }} />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Ana Navbar */}
-      <div
-        className={`container-custom transition-all duration-300 ${
-          isScrolled ? 'py-4' : 'py-6'
-        }`}
-      >
-        <nav className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-4">
-            <div
-              className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors duration-300 shadow-md ${
-                isScrolled ? 'bg-primary-500' : 'bg-white'
-              }`}
-            >
-              <span
-                className={`text-3xl font-bold ${
-                  isScrolled ? 'text-white' : 'text-primary-500'
-                }`}
-              >
-                E
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span
-                className={`text-xl md:text-2xl font-bold leading-tight transition-colors duration-300 ${
-                  isScrolled ? 'text-primary-500' : 'text-white'
-                }`}
-              >
-                Erzurumlular
-              </span>
-              <span
-                className={`text-base transition-colors duration-300 ${
-                  isScrolled ? 'text-secondary-600' : 'text-white/80'
-                }`}
-              >
-                Derneği
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `px-3 py-2.5 rounded-lg text-[15px] font-medium transition-all duration-200 ${
-                    isActive
-                      ? isScrolled
-                        ? 'text-primary-500 bg-primary-50'
-                        : 'text-white bg-white/20'
-                      : isScrolled
-                      ? 'text-secondary-700 hover:text-primary-500 hover:bg-primary-50'
-                      : 'text-white/90 hover:text-white hover:bg-white/10'
-                  }`
-                }
-              >
-                {link.name}
-              </NavLink>
-            ))}
+    <header className="sticky top-0 z-50 bg-white border-b border-secondary-200 shadow-soft">
+      <div className="hidden md:block bg-primary-500 text-white/90">
+        <div className="container-custom flex items-center justify-between gap-4 py-2 text-xs">
+          <div className="flex items-center gap-6">
+            <a href="mailto:kay.erz.der@gmail.com" className="flex items-center gap-2 hover:text-white">
+              <Mail className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>kay.erz.der@gmail.com</span>
+            </a>
+            <span className="flex items-center gap-2">
+              <Clock className="w-3.5 h-3.5" aria-hidden="true" />
+              Her gün 09.00 – 23.00
+            </span>
           </div>
-
-          {/* CTA Button */}
-          <div className="hidden lg:block">
-            <Button
-              to="/uyelik"
-              variant={isScrolled ? 'primary' : 'white'}
-              size="md"
-            >
-              Üye Ol
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className={`lg:hidden p-2 rounded-lg transition-colors duration-200 ${
-              isScrolled
-                ? 'text-primary-500 hover:bg-primary-50'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </nav>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="lg:hidden overflow-hidden"
-            >
-              <div className="py-4 space-y-2">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.path}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <NavLink
-                      to={link.path}
-                      className={({ isActive }) =>
-                        `block px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
-                          isActive
-                            ? 'text-primary-500 bg-primary-50'
-                            : 'text-secondary-700 hover:text-primary-500 hover:bg-primary-50'
-                        }`
-                      }
-                    >
-                      {link.name}
-                    </NavLink>
-                  </motion.div>
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.05 }}
-                  className="pt-2"
-                >
-                  <Button to="/uyelik" variant="primary" className="w-full">
-                    Üye Ol
-                  </Button>
-                </motion.div>
-
-                {/* Mobil iletişim + sosyal */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: (navLinks.length + 1) * 0.05 }}
-                  className="pt-4 mt-2 border-t border-secondary-200 space-y-2"
-                >
-                  <a
-                    href="tel:+902121234567"
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-secondary-600"
-                  >
-                    <Phone className="w-4 h-4 text-primary-500" />
-                    (0212) 123 45 67
-                  </a>
-                  <a
-                    href="mailto:info@erzurumlulardernegi.org"
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-secondary-600"
-                  >
-                    <Mail className="w-4 h-4 text-primary-500" />
-                    info@erzurumlulardernegi.org
-                  </a>
-                  <div className="flex items-center gap-3 px-4 pt-2">
-                    {socialLinks.map((social) => (
-                      <a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={social.label}
-                        className="w-9 h-9 flex items-center justify-center rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors duration-200"
-                      >
-                        <social.icon className="w-4 h-4" />
-                      </a>
-                    ))}
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          <span className="flex items-center gap-2">
+            <MapPin className="w-3.5 h-3.5" aria-hidden="true" /> Pendik, İstanbul
+          </span>
+        </div>
       </div>
-    </motion.header>
+
+      <div className="container-custom flex h-20 items-center justify-between gap-4">
+        <Link to="/" className="flex min-w-0 items-center gap-3 rounded-lg" aria-label="Pendik Kaynarca Erzurumlular Derneği — Ana sayfa">
+          <img
+            src="/images/dernek-logo.png"
+            alt="Pendik Kaynarca Erzurumlular Kültür ve Dayanışma Derneği logosu"
+            width="64"
+            height="64"
+            className="h-14 w-14 sm:h-16 sm:w-16 shrink-0 object-contain"
+          />
+          <span className="min-w-0">
+            <span className="block text-base sm:text-xl font-bold leading-tight text-primary-500">Pendik Kaynarca</span>
+            <span className="block text-xs sm:text-sm text-secondary-600 mt-1">Erzurumlular Derneği</span>
+          </span>
+        </Link>
+        <div className="flex shrink-0 items-center gap-3">
+          <div className="hidden sm:block">
+            <Button to="/uyelik" size="sm">Üye Ol</Button>
+          </div>
+          <button
+            ref={menuButton}
+            type="button"
+            onClick={() => setIsOpen((open) => !open)}
+            aria-label={isOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
+            className="xl:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-secondary-200 text-primary-500 hover:bg-secondary-50"
+          >
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+
+      <nav aria-label="Ana menü" className="hidden xl:block border-t border-secondary-100">
+        <div className="container-custom flex items-center justify-between gap-1 py-1">
+          {navLinks.map((link) => (
+            <NavLink key={link.path} to={link.path} end={link.path === '/'} className={linkStyles}>
+              {link.name}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
+
+      <nav
+        id="mobile-navigation"
+        aria-label="Mobil menü"
+        hidden={!isOpen}
+        className="xl:hidden absolute top-full left-0 right-0 max-h-[calc(100dvh-120px)] overflow-y-auto bg-white border-b border-secondary-200 shadow-elegant"
+      >
+        <div className="container-custom grid gap-1 py-4">
+          {navLinks.map((link) => (
+            <NavLink key={link.path} to={link.path} end={link.path === '/'} className={linkStyles} onClick={() => setIsOpen(false)}>
+              {link.name}
+            </NavLink>
+          ))}
+          <Button to="/uyelik" className="w-full mt-3" onClick={() => setIsOpen(false)}>Üye Ol</Button>
+          <a href="mailto:kay.erz.der@gmail.com" className="flex items-center gap-2 border-t border-secondary-200 mt-3 px-4 pt-4 pb-2 text-sm text-secondary-600">
+            <Mail className="w-4 h-4" aria-hidden="true" /> kay.erz.der@gmail.com
+          </a>
+        </div>
+      </nav>
+    </header>
   );
 };
 

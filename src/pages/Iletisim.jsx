@@ -2,16 +2,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   MapPin,
-  Phone,
   Mail,
   Clock,
   Send,
   User,
   MessageSquare,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
   CheckCircle,
 } from 'lucide-react';
 import PageHeader from '../components/sections/PageHeader';
@@ -22,30 +17,18 @@ const contactInfo = [
   {
     icon: MapPin,
     title: 'Adres',
-    details: ['Atatürk Caddesi No: 123', 'Kadıköy, İstanbul 34710'],
-  },
-  {
-    icon: Phone,
-    title: 'Telefon',
-    details: ['(0212) 123 45 67', '(0532) 123 45 67'],
+    details: ['Esenler Mah., Mercan Sok., No: 7', 'Pendik, İstanbul'],
   },
   {
     icon: Mail,
     title: 'E-posta',
-    details: ['info@erzurumlulardernegi.org', 'iletisim@erzurumlulardernegi.org'],
+    details: ['kay.erz.der@gmail.com'],
   },
   {
     icon: Clock,
     title: 'Çalışma Saatleri',
-    details: ['Pazartesi - Cuma: 09:00 - 18:00', 'Cumartesi: 10:00 - 14:00'],
+    details: ['Her gün: 09.00 – 23.00'],
   },
-];
-
-const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook', color: 'hover:bg-blue-600' },
-  { icon: Twitter, href: '#', label: 'Twitter', color: 'hover:bg-sky-500' },
-  { icon: Instagram, href: '#', label: 'Instagram', color: 'hover:bg-pink-600' },
-  { icon: Youtube, href: '#', label: 'Youtube', color: 'hover:bg-red-600' },
 ];
 
 const Iletisim = () => {
@@ -65,11 +48,13 @@ const Iletisim = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1500);
+    const subject = encodeURIComponent(formData.konu);
+    const body = encodeURIComponent(
+      `Ad Soyad: ${formData.adSoyad}\nE-posta: ${formData.eposta}\n\n${formData.mesaj}`
+    );
+    window.location.href = `mailto:kay.erz.der@gmail.com?subject=${subject}&body=${body}`;
+    setIsSubmitting(false);
+    setIsSubmitted(true);
   };
 
   return (
@@ -127,24 +112,6 @@ const Iletisim = () => {
                 ))}
               </div>
 
-              {/* Social Links */}
-              <div className="mt-10">
-                <h3 className="font-bold text-secondary-800 mb-4">Sosyal Medya</h3>
-                <div className="flex space-x-3">
-                  {socialLinks.map((social) => (
-                    <motion.a
-                      key={social.label}
-                      href={social.href}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className={`w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center text-secondary-600 transition-all duration-200 ${social.color} hover:text-white`}
-                      aria-label={social.label}
-                    >
-                      <social.icon className="w-5 h-5" />
-                    </motion.a>
-                  ))}
-                </div>
-              </div>
             </motion.div>
 
             {/* Contact Form */}
@@ -165,29 +132,30 @@ const Iletisim = () => {
                     <CheckCircle className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-green-800 mb-4">
-                    Mesajınız Gönderildi!
+                    E-posta Taslağınız Hazır
                   </h3>
                   <p className="text-green-700">
-                    Mesajınız başarıyla alınmıştır. En kısa sürede sizinle iletişime geçeceğiz.
-                    Teşekkür ederiz.
+                    E-posta uygulamanız açıldıysa mesajınızı kontrol edip gönder düğmesine basın. Açılmadıysa doğrudan kay.erz.der@gmail.com adresine yazabilirsiniz.
                   </p>
+                  <button type="button" onClick={() => setIsSubmitted(false)} className="mt-6 min-h-11 rounded-lg border border-green-700 px-5 py-3 font-semibold text-green-800 hover:bg-green-100">Forma geri dön</button>
                 </motion.div>
               ) : (
                 <Card padding="lg" className="h-full">
                   <h2 className="text-2xl font-bold text-primary-500 mb-6">
                     Bize Yazın
                   </h2>
+                  <p className="text-sm text-secondary-600 mb-6 leading-relaxed">Bu form, mesajınızı gönderebilmeniz için e-posta uygulamanızda bir taslak hazırlar.</p>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-secondary-700 font-medium mb-2">
+                        <label htmlFor="iletisim-adSoyad" className="block text-secondary-700 font-medium mb-2">
                           Ad Soyad *
                         </label>
                         <div className="relative">
                           <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
                           <input
                             type="text"
-                            name="adSoyad"
+                            id="iletisim-adSoyad" name="adSoyad"
                             value={formData.adSoyad}
                             onChange={handleChange}
                             required
@@ -198,14 +166,14 @@ const Iletisim = () => {
                       </div>
 
                       <div>
-                        <label className="block text-secondary-700 font-medium mb-2">
+                        <label htmlFor="iletisim-eposta" className="block text-secondary-700 font-medium mb-2">
                           E-posta *
                         </label>
                         <div className="relative">
                           <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
                           <input
                             type="email"
-                            name="eposta"
+                            id="iletisim-eposta" name="eposta"
                             value={formData.eposta}
                             onChange={handleChange}
                             required
@@ -217,12 +185,12 @@ const Iletisim = () => {
                     </div>
 
                     <div>
-                      <label className="block text-secondary-700 font-medium mb-2">
+                      <label htmlFor="iletisim-konu" className="block text-secondary-700 font-medium mb-2">
                         Konu *
                       </label>
                       <input
                         type="text"
-                        name="konu"
+                        id="iletisim-konu" name="konu"
                         value={formData.konu}
                         onChange={handleChange}
                         required
@@ -232,13 +200,13 @@ const Iletisim = () => {
                     </div>
 
                     <div>
-                      <label className="block text-secondary-700 font-medium mb-2">
+                      <label htmlFor="iletisim-mesaj" className="block text-secondary-700 font-medium mb-2">
                         Mesaj *
                       </label>
                       <div className="relative">
                         <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-secondary-400" />
                         <textarea
-                          name="mesaj"
+                          id="iletisim-mesaj" name="mesaj"
                           value={formData.mesaj}
                           onChange={handleChange}
                           required
@@ -257,7 +225,7 @@ const Iletisim = () => {
                       disabled={isSubmitting}
                       icon={<Send className="w-5 h-5" />}
                     >
-                      {isSubmitting ? 'Gönderiliyor...' : 'Mesajı Gönder'}
+                      {isSubmitting ? 'Hazırlanıyor...' : 'E-posta Taslağı Oluştur'}
                     </Button>
                   </form>
                 </Card>
@@ -275,18 +243,16 @@ const Iletisim = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-secondary-200 rounded-2xl overflow-hidden h-[400px] flex items-center justify-center"
+            className="bg-secondary-200 rounded-2xl overflow-hidden h-[400px]"
           >
-            {/* Google Maps Placeholder */}
-            <div className="text-center p-8">
-              <MapPin className="w-16 h-16 text-secondary-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-secondary-600 mb-2">
-                Harita Alanı
-              </h3>
-              <p className="text-secondary-500">
-                Google Maps entegrasyonu için bu alana harita eklenebilir.
-              </p>
-            </div>
+            <iframe
+              title="Pendik Kaynarca Erzurumlular Kültür ve Dayanışma Derneği konumu"
+              src="https://www.google.com/maps?q=40.886433,29.272493&z=16&output=embed"
+              className="w-full h-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
           </motion.div>
         </div>
       </section>

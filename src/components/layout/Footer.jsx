@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  Facebook,
-  Instagram,
   Mail,
-  Phone,
   MapPin,
+  Clock,
   Heart,
 } from 'lucide-react';
 
@@ -25,11 +23,6 @@ const usefulLinks = [
   { name: 'İletişim', path: '/iletisim' },
 ];
 
-const socialLinks = [
-  { icon: Facebook, href: 'https://www.facebook.com/', label: 'Facebook' },
-  { icon: Instagram, href: 'https://www.instagram.com/', label: 'Instagram' },
-];
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -45,35 +38,24 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <Link to="/" className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                <span className="text-xl font-bold text-primary-500">E</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-bold">Erzurumlular</span>
-                <span className="text-sm text-white/80">Derneği</span>
+            <Link to="/" className="flex items-center gap-3 mb-6">
+              <img
+                src="/images/dernek-logo.png"
+                alt="Pendik Kaynarca Erzurumlular Kültür ve Dayanışma Derneği logosu"
+                width="64"
+                height="64"
+                loading="lazy"
+                className="w-16 h-16 shrink-0 object-contain"
+              />
+              <div className="flex min-w-0 flex-col">
+                <span className="text-base font-bold">Pendik Kaynarca Erzurumlular</span>
+                <span className="text-sm text-white/80">Kültür ve Dayanışma Derneği</span>
               </div>
             </Link>
             <p className="text-white/80 mb-6 leading-relaxed">
-              Kültürümüzü yaşatıyor, dayanışmamızı büyütüyor ve geleceğe birlikte yürüyoruz.
-              Birlik ve beraberlik içinde Erzurum sevgisini yaşatmak için çalışıyoruz.
+              Memleket sevgisini, kültürümüzü ve dayanışma ruhunu 1992'den beri yaşatıyoruz.
             </p>
-            <div className="flex space-x-3">
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
-                  aria-label={social.label}
-                >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
-              ))}
-            </div>
+            <p className="text-accent-300 font-semibold">Memleket Sevgisi, Dayanışmanın Adresi.</p>
           </motion.div>
 
           {/* Quick Links */}
@@ -134,21 +116,19 @@ const Footer = () => {
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 mt-1 text-accent-400" />
                 <span className="text-white/80">
-                  Atatürk Caddesi No: 123<br />
-                  Kadıköy, İstanbul
+                  Esenler Mah., Mercan Sok., No: 7<br />
+                  Pendik, İstanbul
                 </span>
               </li>
               <li className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-accent-400" />
-                <a href="tel:+902121234567" className="text-white/80 hover:text-white transition-colors duration-200">
-                  (0212) 123 45 67
+                <Mail className="w-5 h-5 text-accent-400" />
+                <a href="mailto:kay.erz.der@gmail.com" className="text-white/80 hover:text-white transition-colors duration-200">
+                  kay.erz.der@gmail.com
                 </a>
               </li>
               <li className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-accent-400" />
-                <a href="mailto:info@erzurumlulardernegi.org" className="text-white/80 hover:text-white transition-colors duration-200">
-                  info@erzurumlulardernegi.org
-                </a>
+                <Clock className="w-5 h-5 text-accent-400" />
+                <span className="text-white/80">Her gün 09.00 – 23.00</span>
               </li>
             </ul>
           </motion.div>
@@ -160,11 +140,12 @@ const Footer = () => {
         <div className="container-custom py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-white/60 text-sm text-center md:text-left">
-              © {currentYear} Erzurumlular Derneği. Tüm hakları saklıdır.
+              © {currentYear} Pendik Kaynarca Erzurumlular Kültür ve Dayanışma Derneği. Tüm hakları saklıdır.
             </p>
             <p className="text-white/60 text-sm flex items-center">
               Birlik ve dayanışma ile <Heart className="w-4 h-4 mx-1 text-red-400" /> güçleniyoruz.
             </p>
+            <Link to="/yonetim" className="text-white/70 hover:text-white text-xs min-h-11 inline-flex items-center">Yönetici Girişi</Link>
           </div>
         </div>
       </div>

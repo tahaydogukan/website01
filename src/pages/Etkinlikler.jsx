@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
 import PageHeader from '../components/sections/PageHeader';
 import Button from '../components/ui/Button';
-import { events, eventCategories } from '../data/events';
+import { events, eventCategories, getEventStatus } from '../data/events';
 
 const Etkinlikler = () => {
   const [selectedCategory, setSelectedCategory] = useState('Tümü');
@@ -11,9 +11,11 @@ const Etkinlikler = () => {
 
   const filteredEvents = events.filter((event) => {
     const categoryMatch = selectedCategory === 'Tümü' || event.category === selectedCategory;
-    const statusMatch = showUpcoming ? event.status === 'upcoming' : event.status === 'past';
+    const statusMatch = getEventStatus(event) === (showUpcoming ? 'upcoming' : 'past');
     return categoryMatch && statusMatch;
-  });
+  }).sort((a, b) => showUpcoming
+    ? Date.parse(a.startsAt) - Date.parse(b.startsAt)
+    : Date.parse(b.startsAt) - Date.parse(a.startsAt));
 
   return (
     <motion.div
@@ -34,10 +36,11 @@ const Etkinlikler = () => {
           <div className="mb-12">
             {/* Status Toggle */}
             <div className="flex justify-center mb-8">
-              <div className="inline-flex bg-secondary-100 rounded-full p-1">
+              <div className="inline-flex max-w-full bg-secondary-100 rounded-2xl sm:rounded-full p-1">
                 <button
                   onClick={() => setShowUpcoming(true)}
-                  className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
+                  aria-pressed={showUpcoming}
+                  className={`px-3 sm:px-6 py-3 text-sm sm:text-base rounded-xl sm:rounded-full font-medium transition-all duration-200 ${
                     showUpcoming
                       ? 'bg-primary-500 text-white shadow-md'
                       : 'text-secondary-600 hover:text-primary-500'
@@ -47,7 +50,8 @@ const Etkinlikler = () => {
                 </button>
                 <button
                   onClick={() => setShowUpcoming(false)}
-                  className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
+                  aria-pressed={!showUpcoming}
+                  className={`px-3 sm:px-6 py-3 text-sm sm:text-base rounded-xl sm:rounded-full font-medium transition-all duration-200 ${
                     !showUpcoming
                       ? 'bg-primary-500 text-white shadow-md'
                       : 'text-secondary-600 hover:text-primary-500'
@@ -64,9 +68,10 @@ const Etkinlikler = () => {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
+                  aria-pressed={selectedCategory === category}
                   className={`px-5 py-2 rounded-full font-medium transition-all duration-200 ${
                     selectedCategory === category
-                      ? 'bg-accent-500 text-white shadow-md'
+                      ? 'bg-accent-700 text-white shadow-md'
                       : 'bg-secondary-100 text-secondary-600 hover:bg-secondary-200'
                   }`}
                 >
@@ -101,11 +106,11 @@ const Etkinlikler = () => {
                     {/* Status Badge */}
                     <div className="absolute top-4 left-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        event.status === 'upcoming'
+                        getEventStatus(event) === 'upcoming'
                           ? 'bg-green-500 text-white'
                           : 'bg-secondary-500 text-white'
                       }`}>
-                        {event.status === 'upcoming' ? 'Yaklaşan' : 'Tamamlandı'}
+                        {getEventStatus(event) === 'upcoming' ? 'Yaklaşan' : 'Arşiv'}
                       </span>
                     </div>
 
@@ -169,11 +174,12 @@ const Etkinlikler = () => {
                 <Calendar className="w-12 h-12 text-secondary-400" />
               </div>
               <h3 className="text-xl font-bold text-secondary-800 mb-2">
-                Bu kategoride etkinlik bulunamadı
+                {showUpcoming && selectedCategory === 'Tümü' ? 'Yeni etkinlikler yakında burada' : 'Bu kategoride etkinlik bulunamadı'}
               </h3>
               <p className="text-secondary-600">
-                Farklı bir kategori seçerek diğer etkinliklerimize göz atabilirsiniz.
+                {showUpcoming ? 'Yeni programlar duyurulduğunda bu sayfada yer alacak. Geçmiş buluşmalarımızı arşivden inceleyebilirsiniz.' : 'Farklı bir kategori seçerek diğer etkinliklerimize göz atabilirsiniz.'}
               </p>
+              {showUpcoming && <button type="button" onClick={() => { setShowUpcoming(false); setSelectedCategory('Tümü'); }} className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-primary-500 px-5 py-3 font-semibold text-white hover:bg-primary-600">Etkinlik arşivini incele</button>}
             </motion.div>
           )}
         </div>

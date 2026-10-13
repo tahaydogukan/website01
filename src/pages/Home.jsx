@@ -18,9 +18,6 @@ const Home = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Navbar ile reklam arasında boşluk (fixed navbar'ı örtmemek için).
-          Mobil: sadece ana satır (~112px). Masaüstü: bilgi şeridi + ana satır (~152px). */}
-      <div className="h-28 md:h-[152px] bg-primary-500" />
       <AdCarousel />
       <Hero />
       <About />

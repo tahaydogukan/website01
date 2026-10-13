@@ -11,7 +11,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import PageHeader from '../components/sections/PageHeader';
-import { events } from '../data/events';
+import { events, getEventStatus } from '../data/events';
 
 const EtkinlikDetay = () => {
   const { id } = useParams();
@@ -72,12 +72,12 @@ const EtkinlikDetay = () => {
                 <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
                   <span
                     className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide ${
-                      event.status === 'upcoming'
+                      getEventStatus(event) === 'upcoming'
                         ? 'bg-green-500 text-white'
                         : 'bg-secondary-500 text-white'
                     }`}
                   >
-                    {event.status === 'upcoming' ? 'Yaklaşan' : 'Tamamlandı'}
+                    {getEventStatus(event) === 'upcoming' ? 'Yaklaşan' : 'Arşiv'}
                   </span>
                   <span className="px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-secondary-700">
                     <Tag className="w-3 h-3 inline mr-1" />
@@ -92,9 +92,9 @@ const EtkinlikDetay = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                <h1 className="text-3xl md:text-4xl font-bold text-secondary-800 mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-secondary-800 mb-4">
                   {event.title}
-                </h1>
+                </h2>
 
                 <div className="flex flex-wrap gap-6 text-secondary-600 mb-8 pb-8 border-b border-secondary-200">
                   <div className="flex items-center gap-2">

@@ -14,14 +14,15 @@ const Button = ({
   iconPosition = 'right',
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseStyles = 'inline-flex min-h-11 items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2';
 
   const variants = {
     primary: 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-lg focus:ring-primary-500',
     secondary: 'bg-white text-primary-500 border-2 border-primary-500 hover:bg-primary-500 hover:text-white hover:shadow-lg focus:ring-primary-500',
-    accent: 'bg-accent-500 text-white hover:bg-accent-600 hover:shadow-lg focus:ring-accent-500',
+    accent: 'bg-accent-700 text-white hover:bg-accent-800 hover:shadow-lg focus:ring-accent-700',
     ghost: 'bg-transparent text-primary-500 hover:bg-primary-50 focus:ring-primary-500',
     white: 'bg-white text-primary-500 hover:bg-primary-50 hover:shadow-lg focus:ring-white',
+    outlineWhite: 'border border-white/50 text-white hover:bg-white/10 hover:border-white focus:ring-white',
   };
 
   const sizes = {
@@ -34,9 +35,9 @@ const Button = ({
 
   const content = (
     <>
-      {icon && iconPosition === 'left' && <span className="mr-2">{icon}</span>}
+      {icon && iconPosition === 'left' && <span className="shrink-0" aria-hidden="true">{icon}</span>}
       {children}
-      {icon && iconPosition === 'right' && <span className="ml-2">{icon}</span>}
+      {icon && iconPosition === 'right' && <span className="shrink-0" aria-hidden="true">{icon}</span>}
     </>
   );
 
@@ -44,27 +45,17 @@ const Button = ({
 
   if (to) {
     return (
-      <motion.div
-        whileHover={{ scale: disabled ? 1 : 1.02 }}
-        whileTap={{ scale: disabled ? 1 : 0.98 }}
-      >
-        <Link to={to} className={buttonClasses} {...props}>
+        <Link to={to} onClick={onClick} className={buttonClasses} {...props}>
           {content}
         </Link>
-      </motion.div>
     );
   }
 
   if (href) {
     return (
-      <motion.div
-        whileHover={{ scale: disabled ? 1 : 1.02 }}
-        whileTap={{ scale: disabled ? 1 : 0.98 }}
-      >
-        <a href={href} className={buttonClasses} target="_blank" rel="noopener noreferrer" {...props}>
+        <a href={href} onClick={onClick} className={buttonClasses} target="_blank" rel="noopener noreferrer" {...props}>
           {content}
         </a>
-      </motion.div>
     );
   }
 

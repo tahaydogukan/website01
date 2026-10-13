@@ -41,11 +41,11 @@ const About = () => {
             >
               <div className="flex items-center space-x-4">
                 <div className="w-16 h-16 bg-accent-500/10 rounded-full flex items-center justify-center">
-                  <span className="text-2xl font-bold text-accent-600">25</span>
+                  <span className="text-xl font-bold text-accent-600">1992</span>
                 </div>
                 <div>
-                  <div className="font-bold text-secondary-800">Yıllık Tecrübe</div>
-                  <div className="text-sm text-secondary-500">1999'dan beri hizmet veriyoruz</div>
+                  <div className="font-bold text-secondary-800">Kuruluş Yılı</div>
+                  <div className="text-sm text-secondary-500">Dayanışmanın adresi</div>
                 </div>
               </div>
             </motion.div>
@@ -69,10 +69,10 @@ const About = () => {
               <span className="block text-secondary-700">Birleşen Gönüller</span>
             </h2>
             <p className="text-secondary-600 text-lg leading-relaxed mb-8">
-              Erzurumlular Derneği olarak, memleketimizin zengin kültürünü yaşatmak,
-              hemşehrilerimiz arasındaki dayanışmayı güçlendirmek ve gelecek nesillere
-              değerlerimizi aktarmak için var gücümüzle çalışıyoruz. 25 yıllık köklü
-              geçmişimizle binlerce hemşehrimize ulaştık.
+              Pendik Kaynarca Erzurumlular Kültür ve Dayanışma Derneği olarak,
+              memleketimizin zengin kültürünü yaşatmak, hemşehrilerimiz arasındaki
+              dayanışmayı güçlendirmek ve değerlerimizi gelecek nesillere aktarmak için
+              1992'den beri çalışıyoruz.
             </p>
 
             <ul className="space-y-4 mb-8">

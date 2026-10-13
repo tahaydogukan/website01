@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Users,
@@ -12,6 +12,7 @@ import PageHeader from '../components/sections/PageHeader';
 import SectionTitle from '../components/ui/SectionTitle';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import Turnstile from '../components/ui/Turnstile';
 
 const benefits = [
   {
@@ -79,23 +80,53 @@ const Uyelik = () => {
     il: 'İSTANBUL',
     ilce: 'PENDİK',
     mahalle: '',
+    adres: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [reference, setReference] = useState('');
+  const [submitError, setSubmitError] = useState('');
+  const [publicConfig, setPublicConfig] = useState(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [attempt, setAttempt] = useState(0);
+  const [website, setWebsite] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/public-config').then((response) => {
+      if (!response.ok || !response.headers.get('Content-Type')?.includes('application/json')) throw new Error();
+      return response.json();
+    }).then((config) => { if (!cancelled) setPublicConfig(config); })
+      .catch(() => { if (!cancelled) setPublicConfig({ acceptingApplications: false }); });
+    return () => { cancelled = true; };
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!publicConfig?.acceptingApplications || isSubmitting) return;
     setIsSubmitting(true);
-
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError('');
+    try {
+      const response = await fetch('/api/applications', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, turnstileToken, website }),
+      });
+      if (!response.headers.get('Content-Type')?.includes('application/json')) throw new Error('Başvuru sistemiyle bağlantı kurulamadı.');
+      const result = await response.json();
+      if (!response.ok || !result.reference) throw new Error(result.error || 'Başvurunuz kaydedilemedi. Lütfen yeniden deneyin.');
+      setReference(result.reference);
       setIsSubmitted(true);
-    }, 1500);
+    } catch (problem) {
+      setSubmitError(problem.message);
+    } finally {
+      setIsSubmitting(false);
+      setTurnstileToken('');
+      setAttempt((value) => value + 1);
+    }
   };
 
   return (
@@ -221,6 +252,7 @@ const Uyelik = () => {
                   Üyelik başvurunuz başarıyla alınmıştır. Yönetim kurulumuz başvurunuzu
                   inceledikten sonra sizinle iletişime geçecektir. Teşekkür ederiz.
                 </p>
+                <p className="mt-5 font-semibold text-green-800">Başvuru numaranız: {reference}</p>
               </motion.div>
             ) : (
               <motion.form
@@ -231,18 +263,20 @@ const Uyelik = () => {
                 onSubmit={handleSubmit}
                 className="bg-white rounded-3xl shadow-elegant p-8 md:p-10"
               >
+                {!publicConfig?.acceptingApplications && <p role="status" className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">{publicConfig === null ? 'Başvuru sistemi kontrol ediliyor…' : 'Online başvuru sistemi henüz kullanıma açılmadı. Üyelik için dernek merkezimizle iletişime geçebilirsiniz.'}</p>}
+                <div hidden aria-hidden="true"><label htmlFor="membership-website">Web sitesi</label><input id="membership-website" name="website" autoComplete="off" tabIndex={-1} value={website} onChange={(event) => setWebsite(event.target.value)} /></div>
                 {/* Kişisel Bilgiler */}
                 <h3 className="text-lg font-bold text-primary-500 mb-4 pb-2 border-b border-secondary-200">
                   Kişisel Bilgiler
                 </h3>
                 <div className="grid md:grid-cols-2 gap-5 mb-8">
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-adi" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Adı *
                     </label>
                     <input
                       type="text"
-                      name="adi"
+                      id="uyelik-adi" name="adi"
                       value={formData.adi}
                       onChange={handleChange}
                       required
@@ -252,12 +286,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-soyadi" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Soyadı *
                     </label>
                     <input
                       type="text"
-                      name="soyadi"
+                      id="uyelik-soyadi" name="soyadi"
                       value={formData.soyadi}
                       onChange={handleChange}
                       required
@@ -267,12 +301,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-babaAdi" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Baba Adı *
                     </label>
                     <input
                       type="text"
-                      name="babaAdi"
+                      id="uyelik-babaAdi" name="babaAdi"
                       value={formData.babaAdi}
                       onChange={handleChange}
                       required
@@ -282,12 +316,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-anneAdi" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Anne Adı *
                     </label>
                     <input
                       type="text"
-                      name="anneAdi"
+                      id="uyelik-anneAdi" name="anneAdi"
                       value={formData.anneAdi}
                       onChange={handleChange}
                       required
@@ -297,12 +331,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-dogumYeri" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Doğum Yeri *
                     </label>
                     <input
                       type="text"
-                      name="dogumYeri"
+                      id="uyelik-dogumYeri" name="dogumYeri"
                       value={formData.dogumYeri}
                       onChange={handleChange}
                       required
@@ -312,12 +346,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-dogumTarihi" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Doğum Tarihi *
                     </label>
                     <input
                       type="text"
-                      name="dogumTarihi"
+                      id="uyelik-dogumTarihi" name="dogumTarihi"
                       value={formData.dogumTarihi}
                       onChange={handleChange}
                       required
@@ -329,12 +363,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-tcKimlik" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       T.C. Kimlik No *
                     </label>
                     <input
                       type="text"
-                      name="tcKimlik"
+                      id="uyelik-tcKimlik" name="tcKimlik"
                       value={formData.tcKimlik}
                       onChange={handleChange}
                       required
@@ -347,12 +381,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-meslegi" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Mesleği *
                     </label>
                     <input
                       type="text"
-                      name="meslegi"
+                      id="uyelik-meslegi" name="meslegi"
                       value={formData.meslegi}
                       onChange={handleChange}
                       required
@@ -362,11 +396,11 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-kanGrubu" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Kan Grubu *
                     </label>
                     <select
-                      name="kanGrubu"
+                      id="uyelik-kanGrubu" name="kanGrubu"
                       value={formData.kanGrubu}
                       onChange={handleChange}
                       required
@@ -382,11 +416,11 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-ogrenimDurumu" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Öğrenim Durumu *
                     </label>
                     <select
-                      name="ogrenimDurumu"
+                      id="uyelik-ogrenimDurumu" name="ogrenimDurumu"
                       value={formData.ogrenimDurumu}
                       onChange={handleChange}
                       required
@@ -408,12 +442,12 @@ const Uyelik = () => {
                 </h3>
                 <div className="grid md:grid-cols-2 gap-5 mb-8">
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-cepTelefonu" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Cep Telefonu *
                     </label>
                     <input
                       type="tel"
-                      name="cepTelefonu"
+                      id="uyelik-cepTelefonu" name="cepTelefonu"
                       value={formData.cepTelefonu}
                       onChange={handleChange}
                       required
@@ -423,12 +457,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-eposta" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       E-posta Adresi *
                     </label>
                     <input
                       type="email"
-                      name="eposta"
+                      id="uyelik-eposta" name="eposta"
                       value={formData.eposta}
                       onChange={handleChange}
                       required
@@ -438,7 +472,7 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-evTelefonu" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       Ev Telefonu{' '}
                       <span className="text-secondary-400 normal-case font-normal">
                         (zorunlu değil)
@@ -446,7 +480,7 @@ const Uyelik = () => {
                     </label>
                     <input
                       type="tel"
-                      name="evTelefonu"
+                      id="uyelik-evTelefonu" name="evTelefonu"
                       value={formData.evTelefonu}
                       onChange={handleChange}
                       className="input-field"
@@ -455,7 +489,7 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-isTelefonu" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       İş Telefonu{' '}
                       <span className="text-secondary-400 normal-case font-normal">
                         (zorunlu değil)
@@ -463,7 +497,7 @@ const Uyelik = () => {
                     </label>
                     <input
                       type="tel"
-                      name="isTelefonu"
+                      id="uyelik-isTelefonu" name="isTelefonu"
                       value={formData.isTelefonu}
                       onChange={handleChange}
                       className="input-field"
@@ -478,12 +512,12 @@ const Uyelik = () => {
                 </h3>
                 <div className="grid md:grid-cols-3 gap-5">
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-il" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       İl
                     </label>
                     <input
                       type="text"
-                      name="il"
+                      id="uyelik-il" name="il"
                       value={formData.il}
                       onChange={handleChange}
                       className="input-field"
@@ -492,12 +526,12 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    <label htmlFor="uyelik-ilce" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
                       İlçe
                     </label>
                     <input
                       type="text"
-                      name="ilce"
+                      id="uyelik-ilce" name="ilce"
                       value={formData.ilce}
                       onChange={handleChange}
                       className="input-field"
@@ -506,27 +540,48 @@ const Uyelik = () => {
                   </div>
 
                   <div>
-                    <label className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
-                      Mahalle *
+                    <label htmlFor="uyelik-mahalle" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                      Mahalle veya Köy *
                     </label>
                     <input
                       type="text"
-                      name="mahalle"
+                      id="uyelik-mahalle" name="mahalle"
                       value={formData.mahalle}
                       onChange={handleChange}
                       required
                       className="input-field"
-                      placeholder="Mahalleniz"
+                      placeholder="Mahalle veya köy"
                     />
                   </div>
                 </div>
+
+                <div className="mt-5">
+                  <label htmlFor="uyelik-adres" className="block text-secondary-700 text-sm font-semibold mb-2 uppercase tracking-wide">
+                    Açık Adres *
+                  </label>
+                  <textarea
+                    id="uyelik-adres" name="adres"
+                    value={formData.adres}
+                    onChange={handleChange}
+                    required
+                    rows={3}
+                    className="input-field resize-none"
+                    placeholder="Cadde, sokak, bina ve daire bilgileri"
+                  />
+                  <p className="text-xs text-secondary-500 mt-2">
+                    Başvuru tarihi, bilgileriniz kaydedildiğinde otomatik oluşturulur.
+                  </p>
+                </div>
+
+                {publicConfig?.acceptingApplications && <Turnstile siteKey={publicConfig.turnstileSiteKey} onVerify={setTurnstileToken} attempt={attempt} />}
+                {submitError && <p role="alert" className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">{submitError}</p>}
 
                 <Button
                   type="submit"
                   variant="primary"
                   size="lg"
                   className="w-full mt-8"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !publicConfig?.acceptingApplications || !turnstileToken}
                   icon={<Send className="w-5 h-5" />}
                 >
                   {isSubmitting ? 'Gönderiliyor...' : 'Başvuruyu Gönder'}
