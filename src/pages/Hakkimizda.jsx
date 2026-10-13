@@ -30,6 +30,22 @@ const values = [
 
 const Hakkimizda = () => {
   const president = boardMembers.find((member) => member.title === 'Başkan');
+  const roleOrder = ['Başkan', 'Başkan Vekili', 'Başkan Yardımcısı'];
+  const leadership = boardMembers.filter((member) => roleOrder.includes(member.title))
+    .sort((a, b) => roleOrder.indexOf(a.title) - roleOrder.indexOf(b.title));
+  const members = boardMembers.filter((member) => !roleOrder.includes(member.title));
+
+  const memberCard = (member, isLeadership = false) => (
+    <article key={member.id} className={`group min-w-0 overflow-hidden rounded-2xl border bg-white transition-shadow hover:shadow-elegant ${member.title === 'Başkan' ? 'border-primary-500 shadow-soft' : 'border-secondary-200'}`}>
+      <div className={`${isLeadership ? 'aspect-[4/4.5]' : 'aspect-[4/5]'} overflow-hidden bg-primary-50`}>
+        <img src={member.image} alt={member.name} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03]" style={{ objectPosition: member.imagePosition || 'center' }} />
+      </div>
+      <div className={`p-4 sm:p-6 ${member.title === 'Başkan' ? 'bg-primary-500 text-white' : ''}`}>
+        <p className={`text-xs font-semibold ${member.title === 'Başkan' ? 'text-white/80' : isLeadership ? 'text-accent-700' : 'text-secondary-500'}`}>{member.title}</p>
+        <h4 className={`mt-2 font-bold leading-snug ${isLeadership ? 'text-xl sm:text-2xl' : 'text-sm sm:text-lg'} ${member.title === 'Başkan' ? 'text-white' : 'text-primary-500'}`}>{member.name}</h4>
+      </div>
+    </article>
+  );
 
   return (
     <motion.div
@@ -218,42 +234,31 @@ const Hakkimizda = () => {
       </section>
 
       {/* Yönetim Kurulu */}
-      <section id="yonetim-kurulu" className="section-padding bg-white">
+      <section id="yonetim-kurulu" className="section-padding bg-secondary-50 scroll-mt-48">
         <div className="container-custom">
           <SectionTitle
             title="Yönetim Kurulu"
-            subtitle="Derneğimizi yöneten değerli ekibimiz"
+            subtitle="Birlik ve dayanışma için birlikte çalışan ekibimiz"
           />
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
-            {boardMembers.map((member, index) => (
-              <motion.article
-                key={member.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: (index % 4) * 0.05 }}
-                className="min-w-0"
-              >
-                <div className="h-full overflow-hidden rounded-2xl border border-secondary-200 bg-white shadow-soft">
-                  <div className="aspect-[4/5] overflow-hidden bg-primary-50 flex items-center justify-center">
-                    {member.image ? (
-                      <img src={member.image} alt={member.name} loading="lazy" decoding="async" className="w-full h-full object-cover" style={{ objectPosition: member.imagePosition || 'center' }} />
-                    ) : (
-                      <span className="text-5xl font-bold text-primary-500/60" aria-hidden="true">
-                        {member.name.split(' ').map((part) => part[0]).slice(0, 2).join('')}
-                      </span>
-                    )}
-                  </div>
-                  <div className="p-3 sm:p-5 text-center">
-                    <p className={`text-[10px] sm:text-xs font-semibold uppercase tracking-wide ${member.title === 'Başkan' ? 'text-accent-700' : 'text-secondary-500'}`}>
-                      {member.title}
-                    </p>
-                    <h3 className="text-sm sm:text-lg font-bold text-secondary-800 mt-2">{member.name}</h3>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-6 flex items-center gap-4">
+              <h3 className="text-lg font-bold text-primary-500">Başkanlık Ekibi</h3>
+              <span className="h-px flex-1 bg-secondary-200" aria-hidden="true" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
+              {leadership.map((member) => memberCard(member, true))}
+            </div>
+          </div>
+          <div className="mt-14 sm:mt-20">
+            <div className="mb-6 flex items-center gap-4">
+              <h3 className="text-lg font-bold text-primary-500">Yönetim Kurulu Üyeleri</h3>
+              <span className="h-px flex-1 bg-secondary-200" aria-hidden="true" />
+              <span className="rounded-full bg-white border border-secondary-200 px-3 py-1 text-xs text-secondary-500">{members.length} üye</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+              {members.map((member) => memberCard(member))}
+            </div>
           </div>
         </div>
       </section>
